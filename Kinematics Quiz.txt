@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>GCE O Level Physics – Kinematics MCQ</title>
+ 
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f6f8;
+    margin: 20px;
+}
+h1, h2 {
+    text-align: center;
+}
+.question {
+    background: white;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 6px;
+}
+.options label {
+    display: block;
+    margin: 6px 0;
+}
+#timer {
+    font-size: 18px;
+    text-align: center;
+    margin-bottom: 20px;
+    color: darkred;
+}
+button {
+    padding: 10px 18px;
+    font-size: 16px;
+}
+.correct { color: green; }
+.wrong { color: red; }
+.explain {
+    margin-top: 5px;
+    font-style: italic;
+}
+</style>
+</head>
+ 
+<body>
+ 
+<h1>GCE O Level Physics</h1>
+<h2>Kinematics – Multiple Choice Quiz</h2>
+ 
+<div id="timer"></div>
+<form id="quizForm"></form>
+<button onclick="submitQuiz()">Submit Quiz</button>
+ 
+<div id="result"></div>
+ 
+<script>
+const TIME_LIMIT = 20 * 60; // 20 minutes
+let timeLeft = TIME_LIMIT;
+let submitted = false;
+ 
+const questions = [
+{
+q: "1. What physical quantity is represented by the gradient of a displacement–time graph?",
+options: ["Speed", "Velocity", "Acceleration", "Distance"],
+answer: 1,
+explain: "Gradient of displacement–time graph = change in displacement ÷ time, which is velocity."
+},
+{
+q: "2. A body moves with constant velocity. Which statement about its acceleration is correct?",
+options: ["It is constant but non-zero", "It is increasing", "It is zero", "It is decreasing"],
+answer: 2,
+explain: "Constant velocity means no change in velocity, hence acceleration is zero."
+},
+{
+q: "3. What does the area under a velocity–time graph represent?",
+options: ["Acceleration", "Distance travelled", "Displacement", "Speed"],
+answer: 2,
+explain: "Area under v–t graph gives displacement (taking direction into account)."
+},
+{
+q: "4. A car accelerates uniformly from rest. Which equation of motion is suitable to find its velocity after time t?",
+options: ["s = ut + ½at²", "v = u + at", "v² = u² + 2as", "a = (v − u)/t"],
+answer: 1,
+explain: "v = u + at directly links velocity, acceleration and time."
+},
+{
+q: "5. Which of the following quantities is a vector?",
+options: ["Speed", "Distance", "Time", "Velocity"],
+answer: 3,
+explain: "Velocity has both magnitude and direction."
+},
+{
+q: "6. A runner completes one full lap of a circular track and stops at the starting point. What is the displacement?",
+options: ["Equal to circumference", "Zero", "Maximum", "Depends on speed"],
+answer: 1,
+explain: "Final position equals initial position, so displacement is zero."
+},
+{
+q: "7. Which velocity–time graph represents uniform acceleration?",
+options: [
+"Straight line with constant gradient",
+"Horizontal straight line",
+"Curved line",
+"Zig-zag line"
+],
+answer: 0,
+explain: "Uniform acceleration means velocity increases at a constant rate → straight line."
+},
+{
+q: "8. What is the SI unit of acceleration?",
+options: ["m s⁻¹", "m s⁻²", "km h⁻¹", "N"],
+answer: 1,
+explain: "Acceleration = change in velocity per second → m s⁻²."
+},
+{
+q: "9. The gradient of a velocity–time graph represents:",
+options: ["Speed", "Acceleration", "Displacement", "Distance"],
+answer: 1,
+explain: "Gradient = change in velocity ÷ time = acceleration."
+},
+{
+q: "10. A car accelerates at 4 m s⁻² for 3 s. What is its change in velocity?",
+options: ["4 m s⁻¹", "7 m s⁻¹", "12 m s⁻¹", "24 m s⁻¹"],
+answer: 2,
+explain: "Change in velocity = at = 4 × 3 = 12 m s⁻¹."
+},
+{
+q: "11. Which equation is used when displacement, initial velocity, acceleration and time are known?",
+options: ["v = u + at", "s = ut + ½at²", "v² = u² + 2as", "a = (v − u)/t"],
+answer: 1,
+explain: "s = ut + ½at² relates displacement directly."
+},
+{
+q: "12. An object slowing down has:",
+options: ["Positive acceleration", "Negative acceleration", "Zero acceleration", "Increasing velocity"],
+answer: 1,
+explain: "Acceleration acts opposite to direction of motion when slowing down."
+},
+{
+q: "13. What does a horizontal line on a velocity–time graph indicate?",
+options: ["Uniform acceleration", "Zero velocity", "Constant velocity", "Increasing acceleration"],
+answer: 2,
+explain: "Velocity does not change → constant velocity."
+},
+{
+q: "14. Which statement about distance and displacement is correct?",
+options: [
+"They are always equal",
+"Displacement can be greater than distance",
+"Distance is a scalar, displacement is a vector",
+"Distance has direction"
+],
+answer: 2,
+explain: "Distance is scalar; displacement has magnitude and direction."
+},
+{
+q: "15. A cyclist moves at constant speed in a straight line. What is the acceleration?",
+options: ["Increasing", "Decreasing", "Zero", "Maximum"],
+answer: 2,
+explain: "No change in velocity → acceleration is zero."
+},
+{
+q: "16. What happens to acceleration when velocity is constant?",
+options: ["It increases", "It decreases", "It is zero", "It is negative"],
+answer: 2,
+explain: "Constant velocity means no acceleration."
+},
+{
+q: "17. Which graph best represents constant velocity?",
+options: [
+"Straight line displacement–time graph",
+"Curved displacement–time graph",
+"Straight line velocity–time graph with gradient",
+"Curved velocity–time graph"
+],
+answer: 0,
+explain: "Constant velocity gives constant gradient on displacement–time graph."
+},
+{
+q: "18. What is meant by uniform acceleration?",
+options: [
+"Velocity is constant",
+"Acceleration increases",
+"Acceleration is constant",
+"Speed is constant"
+],
+answer: 2,
+explain: "Uniform means constant."
+},
+{
+q: "19. If the area under a velocity–time graph is zero, what can be concluded?",
+options: [
+"Distance is zero",
+"Acceleration is zero",
+"Displacement is zero",
+"Speed is zero"
+],
+answer: 2,
+explain: "Positive and negative areas cancel → zero displacement."
+},
+{
+q: "20. Which situation gives zero displacement but non-zero distance?",
+options: [
+"Moving 10 m east",
+"Standing still",
+"Moving 5 m east then 5 m west",
+"Moving in a straight line"
+],
+answer: 2,
+explain: "Final position equals initial position, but distance travelled is 10 m."
+}
+];
+ 
+// Shuffle questions
+questions.sort(() => Math.random() - 0.5);
+ 
+const quizForm = document.getElementById("quizForm");
+ 
+questions.forEach((q, i) => {
+    const div = document.createElement("div");
+    div.className = "question";
+    div.innerHTML = `<p>${q.q}</p>`;
+    q.options.forEach((opt, idx) => {
+        div.innerHTML += `
+<label>
+<input type="radio" name="q${i}" value="${idx}">
+        ${opt}
+</label>`;
+    });
+    quizForm.appendChild(div);
+});
+ 
+function startTimer() {
+    const timerDiv = document.getElementById("timer");
+    const interval = setInterval(() => {
+        if (timeLeft <= 0 && !submitted) {
+            clearInterval(interval);
+            submitQuiz();
+        }
+        const min = Math.floor(timeLeft / 60);
+        const sec = timeLeft % 60;
+        timerDiv.textContent = `Time Remaining: ${min}:${sec.toString().padStart(2, '0')}`;
+        timeLeft--;
+    }, 1000);
+}
+ 
+function submitQuiz() {
+    if (submitted) return;
+    submitted = true;
+ 
+    let score = 0;
+    let output = "";
+ 
+    questions.forEach((q, i) => {
+        const selected = document.querySelector(`input[name="q${i}"]:checked`);
+        if (selected && parseInt(selected.value) === q.answer) {
+            score++;
+        } else {
+            output += `
+<p class="wrong">
+            Question ${i+1}: Incorrect<br>
+            Correct answer: <span class="correct">${q.options[q.answer]}</span>
+<div class="explain">${q.explain}</div>
+</p>`;
+        }
+    });
+ 
+    document.getElementById("result").innerHTML = `
+<h2>Final Score: ${score} / 20</h2>
+    ${output || "<p class='correct'>Excellent! Full marks 🎉</p>"}`;
+}
+ 
+startTimer();
+</script>
+ 
+</body>
+</html>
